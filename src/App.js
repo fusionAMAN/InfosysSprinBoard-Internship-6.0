@@ -1,54 +1,52 @@
-import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
+import Dashboard from "./pages/Dashboard";
+import Vehicles from "./pages/Vehicles";
+import Reports from "./pages/Reports";
+import Settings from "./pages/Settings";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
+import "./styles/Layout.css";
 
-export default function App() {
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
-    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-      
-      {/* Sidebar */}
-      <div style={{ width: "220px", background: "#1e293b", color: "#fff", padding: "20px" }}>
-        <h2 style={{ marginBottom: "30px" }}>🚦 NeuroFleetX</h2>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          <li style={{ marginBottom: "15px", cursor: "pointer" }}>Dashboard</li>
-          <li style={{ marginBottom: "15px", cursor: "pointer" }}>Traffic Analytics</li>
-          <li style={{ marginBottom: "15px", cursor: "pointer" }}>Fleet Management</li>
-          <li style={{ marginBottom: "15px", cursor: "pointer" }}>Reports</li>
-          <li style={{ marginBottom: "15px", cursor: "pointer" }}>Settings</li>
-        </ul>
-      </div>
+    <Router>
+      <Routes>
+        {/* Auth Pages */}
+        <Route path="/login" element={<Login onLogin={() => setIsAuthenticated(true)} />} />
+        <Route path="/signup" element={<Signup onSignup={() => setIsAuthenticated(true)} />} />
 
-      {/* Main Content */}
-      <div style={{ flex: 1, background: "#f1f5f9", padding: "20px" }}>
-        
-        {/* Header */}
-        <div style={{ background: "#fff", padding: "15px 20px", borderRadius: "8px", marginBottom: "20px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-          <h1 style={{ margin: 0 }}>Urban Mobility Dashboard</h1>
-        </div>
-
-        {/* Dashboard Sections */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-          
-          <div style={{ background: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-            <h2>Traffic Overview</h2>
-            <p>Placeholder for traffic congestion data / charts.</p>
-          </div>
-          
-          <div style={{ background: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-            <h2>Fleet Optimization</h2>
-            <p>Placeholder for fleet routes & AI optimization.</p>
-          </div>
-          
-          <div style={{ background: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-            <h2>Reports</h2>
-            <p>Placeholder for performance metrics.</p>
-          </div>
-          
-          <div style={{ background: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-            <h2>Live Updates</h2>
-            <p>Placeholder for real-time alerts & notifications.</p>
-          </div>
-
-        </div>
-      </div>
-    </div>
+        {/* Protected Dashboard Layout */}
+        <Route
+          path="/*"
+          element={
+            isAuthenticated ? (
+              <div className="app">
+                <Sidebar />
+                <div className="main">
+                  <Navbar />
+                  <div className="content">
+                    <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/vehicles" element={<Vehicles />} />
+                      <Route path="/reports" element={<Reports />} />
+                      <Route path="/settings" element={<Settings />} />
+                    </Routes>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;
