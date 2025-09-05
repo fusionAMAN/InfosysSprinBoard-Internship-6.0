@@ -1,0 +1,71 @@
+.vehicles-page {
+  padding: 20px;
+}
+
+.add-btn {
+  padding: 8px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.add-btn:hover {
+  background: #0056b3;
+}
+
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.vehicle-card {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.status-chip {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: white;
+}
+
+.status-chip.green {
+  background: #28a745;
+}
+.status-chip.blue {
+  background: #007bff;
+}
+.status-chip.red {
+  background: #dc3545;
+}
+
+.btn-group {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.btn-group button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-group button:hover {
+  opacity: 0.9;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+}
